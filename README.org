@@ -1,0 +1,16 @@
+#+Title: unit-calculator
+#+Date: 2020-10-28
+
+* Introduction
+This project is to create a calculator that has all of these features:
+
+1. Handle units and certain mathematical and physical constants
+2. Be a stack calculator
+3. Be a software prototype for an eventual physical calculator
+
+* How to use
+/To be determined/
+
+* Dependencies
+This project uses the ~unit-formulas~ library
+to handle the majority of the actual calculations.
