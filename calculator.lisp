@@ -36,24 +36,20 @@
   (unless (<= depth (length stack))
     (error 'not-enough-elements :has (length stack) :required depth)))
 
-(defun perform-operation (func argument-count &option (stack *stack*))
+;;; Operations
+(defun perform-operation* (func argument-count stack)
   (let ((result (apply func (subseq stack 0 argument-count))))
-    (loop repeat argument-count do (pop stack))
+    (loop repeat argument-count
+          do (pop stack))
     (push result stack)))
 
-;;; Operations
+(defun perform-operation (func argument-count)
+  (setf *stack* (perform-operation* func argument-count *stack*)))
 
-;;; Conversion
+;;; Something
+(defun enter (thing)
+  (push thing *stack*))
 
-;;; Addition
-(defgeneric c+ (arg-1 arg-2)
-  (:method ((arg-1 unit) (arg-2 unit))
-    (or (same-unit-p arg-1 arg-2 :factor t)
-        (error 'incompatible-arguments :op #'c+ :args (list arg-1 arg-2))))
-  (:method ((arg-1 number) (arg-2 unit))
-    (+ arg-1 (handler-case (convert-unit arg-2 nil)
-               (simple-error (error 'incompatible-arguments :op #'c+ :args (list arg-1 arg-2))))))
-  (:method ((arg-1 unit) (arg-2 number))
-    (+ (convert-unit arg-1 nil) arg-2))
-  (:method ((arg-1 number) (arg-2 number))
-    (+ arg-1 arg-2)))
+(defun unit-reduce-function (op-symbol)
+  (lambda (x y)
+    (reduce-unit (list op-symbol x y))))
