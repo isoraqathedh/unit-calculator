@@ -5,4 +5,5 @@
   :version "0.0.1"
   :serial t
   :depends-on (#:unit-formulas #:alexandria)
-  :components ((:file "package")))
+  :components ((:file "package")
+               (:file "calculator")))
